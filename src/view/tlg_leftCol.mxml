@@ -5,6 +5,23 @@
 		 
 		 
 		 >
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import events.UIEvent;
+			
+			protected function clickHandler(event:MouseEvent):void{
+				var uie:UIEvent = new UIEvent(UIEvent.STACK_SELECT);
+				uie.pageName = event.target.text;
+				dispatchEvent(uie);
+				
+				
+			}
+			
+		]]>
+	</fx:Script>
+	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -12,8 +29,26 @@
 	<s:BorderContainer width="100%" height="100%" borderVisible="false" backgroundColor="0xeeeeee"/>
 	
 	<s:VGroup paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
+		<s:Label text="Token" styleName="menuClassTitle"/>
+		<s:Label text="token.createToken" styleName="menuMethodName" click="clickHandler(event)"/>
+		
 		<s:Label text="User" styleName="menuClassTitle"/>
-		<s:Label text="user.signup" styleName="menuMethodName"/>
+		<s:Label text="user.signup" styleName="menuMethodName" click="clickHandler(event)"/>
+		<s:Label text="user.getGroups" styleName="menuMethodName" click="clickHandler(event)"/>
+		<s:Label text="user.getAdminGroups" styleName="menuMethodName" click="clickHandler(event)"/>
+		<s:Label text="user.getActivities" styleName="menuMethodName" click="clickHandler(event)"/>
+		
+		<s:Label text="Group" styleName="menuClassTitle"/>
+		<s:Label text="group.addGroup" styleName="menuMethodName" click="clickHandler(event)"/>
+		<s:Label text="group.addInvite" styleName="menuMethodName" click="clickHandler(event)"/>
+		<s:Label text="group.addMember" styleName="menuMethodName" click="clickHandler(event)"/>
+		
+		<s:Label text="Activity" styleName="menuClassTitle"/>
+		<s:Label text="activity.addActivity" styleName="menuMethodName" click="clickHandler(event)"/>
+		
+		<s:Label text="Workout" styleName="menuClassTitle"/>
+		<s:Label text="workout.addWorkout" styleName="menuMethodName" click="clickHandler(event)"/>
+		
 	</s:VGroup>
 	
 	

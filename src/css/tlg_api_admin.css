@@ -1,0 +1,18 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+.menuClassTitle{
+	fontWeight: bold;
+	fontSize: 14px;
+}
+.menuMethodName{
+	color: #555599;
+	paddingLeft: 10px;
+}
+
+
+.pageTitle{
+	fontWeight: bold;
+	fontSize: 18px;
+}

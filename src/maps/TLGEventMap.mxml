@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EventMap xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   xmlns="http://mate.asfusion.com/"
+		   
+		   >
+	
+	<fx:Script>
+		<![CDATA[
+			import business.ResponseManager;
+			import business.Services;
+			
+			import events.RequestEvent;
+			import events.UIEvent;
+			
+			import view.tlg_rightCol;
+			import view.activity.addActivity;
+			import view.group.addGroup;
+			import view.group.addInvite;
+			import view.group.addMember;
+			import view.user.getActivities;
+			import view.user.getAdminGroups;
+			import view.user.getGroups;
+			import view.workout.addWorkout;
+			
+			
+			[Bindable] private var services:Services = new Services();
+			
+		]]>
+	</fx:Script>
+	
+	
+	
+	<fx:Declarations>
+	
+		<EventHandlers type="{RequestEvent.TLG_API_REQUEST}" debug="true">
+			<HTTPServiceInvoker instance="{services.tlgApiRequest}" debug="true">
+				<Request data="{event.requestJson}"/>
+				<resultHandlers>
+					<MethodInvoker generator="{ResponseManager}" method="handleResponse" arguments="{[event, resultObject]}"/>
+				</resultHandlers>
+				<faultHandlers>
+					<MethodInvoker generator="{ResponseManager}" method="handelFault" arguments="{[event, fault, resultObject]}"/>
+				</faultHandlers>
+			</HTTPServiceInvoker>
+		</EventHandlers>
+		
+		<EventHandlers type="{UIEvent.STACK_SELECT}">
+			<EventAnnouncer generator="{UIEvent}" type="{UIEvent.STACK_SET}">
+				<Properties pageName="{event.pageName}"/>
+			</EventAnnouncer>
+		</EventHandlers>
+		
+		
+		
+		
+		
+		<Injectors target="{tlg_rightCol}">
+			<ListenerInjector eventType="{UIEvent.STACK_SET}" method="setPage"/>
+		</Injectors>
+		
+		<!--TOKEN-->
+		
+		<!--TLGUSER-->
+		<Injectors target="{getAdminGroups}">
+			<PropertyInjector source="{ResponseManager}" sourceKey="token" targetKey="token"/>
+			<PropertyInjector source="{ResponseManager}" sourceKey="adminGroups" targetKey="adminGroups"/>
+		</Injectors>
+		
+		<Injectors target="{getActivities}">
+			<PropertyInjector source="{ResponseManager}" sourceKey="token" targetKey="token"/>
+			<PropertyInjector source="{ResponseManager}" sourceKey="activities" targetKey="activities"/>
+		</Injectors>
+		
+		<Injectors target="{getGroups}">
+			<PropertyInjector source="{ResponseManager}" sourceKey="token" targetKey="token"/>
+			<PropertyInjector source="{ResponseManager}" sourceKey="groups" targetKey="groups"/>
+		</Injectors>
+		<!--GROUP-->
+		<Injectors target="{addGroup}">
+			<PropertyInjector source="{ResponseManager}" sourceKey="token" targetKey="token"/>
+		</Injectors>
+		
+		<Injectors target="{addInvite}">
+			<PropertyInjector source="{ResponseManager}" sourceKey="token" targetKey="token"/>
+			<PropertyInjector source="{ResponseManager}" sourceKey="adminGroups" targetKey="adminGroups"/>
+		</Injectors>
+		
+		<Injectors target="{addMember}">
+			<PropertyInjector source="{ResponseManager}" sourceKey="adminGroups" targetKey="adminGroups"/>
+		</Injectors>
+		
+		<!--WORKOUT-->
+		<Injectors target="{addWorkout}">
+			<PropertyInjector source="{ResponseManager}" sourceKey="token" targetKey="token"/>
+			<PropertyInjector source="{ResponseManager}" sourceKey="activities" targetKey="activities"/>
+			<PropertyInjector source="{ResponseManager}" sourceKey="groups" targetKey="groups"/>
+		</Injectors>
+		
+		<!--ACTIVITY-->
+		<Injectors target="{addActivity}">
+			<PropertyInjector source="{ResponseManager}" sourceKey="token" targetKey="token"/>
+			<PropertyInjector source="{ResponseManager}" sourceKey="adminGroups" targetKey="adminGroups"/>
+		</Injectors>
+		
+		
+		
+		
+		
+		
+	</fx:Declarations>
+	
+	
+	
+	
+	
+	
+	
+	
+</EventMap>

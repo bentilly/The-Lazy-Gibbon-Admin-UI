@@ -5,7 +5,7 @@ package events{
 		
 		/*..... USER .....*/
 		//user.signup
-		public static const USER_SIGNUP:String = "user_signup_event"
+		public static const TLG_API_REQUEST:String = "tlg_api_request_event";
 		
 		
 		

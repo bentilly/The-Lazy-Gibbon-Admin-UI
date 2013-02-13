@@ -18,17 +18,14 @@
 			import events.RequestEvent;
 			
 			private function validateForm(event:MouseEvent):void {
-				var validatorErrorArray:Array = Validator.validateAll([nameValidator, emailValidator, pwValidator]);
+				var validatorErrorArray:Array = Validator.validateAll([emailValidator, pwValidator]);
 				var isValidForm:Boolean = validatorErrorArray.length == 0;
 				if (isValidForm) {
 					var re:RequestEvent = new RequestEvent(RequestEvent.TLG_API_REQUEST);
-					//make object
 					var requestObj:Object = new Object();
-					requestObj.operation = 'user.signup';
-					requestObj.name = nameInput.text;
+					requestObj.operation = 'token.createToken';
 					requestObj.email = emailInput.text;
 					requestObj.password = MD5.hash(passwordInput.text);
-					//requestObj.password = passwordInput.text;
 					re.requestJson = JSON.stringify(requestObj);
 					requestDisplay.text = re.requestJson;
 					dispatchEvent(re);
@@ -42,17 +39,14 @@
 	
 	
 	<fx:Declarations>
-		<mx:StringValidator id="nameValidator" source="{nameInput}" property="text" required="true"/> <!--TODO: restrict to normal characters so it doesnt stuff up the JSON-->
 		<mx:EmailValidator id="emailValidator" source="{emailInput}" property="text" required="true"/>
 		<mx:StringValidator id="pwValidator" source="{passwordInput}" property="text" required="true"/>
 	</fx:Declarations>
 	
-	<s:Label text="user.signup" styleName="pageTitle"/>
+	<s:Label text="token.createToken" styleName="pageTitle"/>
 	<s:HGroup width="100%">
 		<s:BorderContainer backgroundColor="0xeeeeee">
 			<s:VGroup paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
-				<s:Label text="name:"/>
-				<s:TextInput id="nameInput"/>
 				<s:Label text="email:"/>
 				<s:TextInput id="emailInput"/>
 				<s:Label text="password:"/>

@@ -10,28 +10,28 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.adobe.crypto.MD5;
-			
+
 			import mx.controls.Alert;
 			import mx.validators.Validator;
 			
 			import events.RequestEvent;
 			
+			[Bindable] public var token:String;
+			
 			private function validateForm(event:MouseEvent):void {
-				var validatorErrorArray:Array = Validator.validateAll([nameValidator, emailValidator, pwValidator]);
+				var validatorErrorArray:Array = Validator.validateAll([nameValidator]);
 				var isValidForm:Boolean = validatorErrorArray.length == 0;
 				if (isValidForm) {
 					var re:RequestEvent = new RequestEvent(RequestEvent.TLG_API_REQUEST);
-					//make object
 					var requestObj:Object = new Object();
-					requestObj.operation = 'user.signup';
+					requestObj.operation = 'group.addGroup';
 					requestObj.name = nameInput.text;
-					requestObj.email = emailInput.text;
-					requestObj.password = MD5.hash(passwordInput.text);
-					//requestObj.password = passwordInput.text;
+					requestObj.token = token;
 					re.requestJson = JSON.stringify(requestObj);
 					requestDisplay.text = re.requestJson;
 					dispatchEvent(re);
+					
+					
 
 				} else {
 					Alert.show("The form is not valid!", "Somethings up");
@@ -43,20 +43,16 @@
 	
 	<fx:Declarations>
 		<mx:StringValidator id="nameValidator" source="{nameInput}" property="text" required="true"/> <!--TODO: restrict to normal characters so it doesnt stuff up the JSON-->
-		<mx:EmailValidator id="emailValidator" source="{emailInput}" property="text" required="true"/>
-		<mx:StringValidator id="pwValidator" source="{passwordInput}" property="text" required="true"/>
 	</fx:Declarations>
 	
-	<s:Label text="user.signup" styleName="pageTitle"/>
+	<s:Label text="group.addGroup" styleName="pageTitle"/>
 	<s:HGroup width="100%">
 		<s:BorderContainer backgroundColor="0xeeeeee">
 			<s:VGroup paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
-				<s:Label text="name:"/>
+				<s:Label text="current token:"/>
+				<s:Label text="{token}"/>
+				<s:Label text="groupname:"/>
 				<s:TextInput id="nameInput"/>
-				<s:Label text="email:"/>
-				<s:TextInput id="emailInput"/>
-				<s:Label text="password:"/>
-				<s:TextInput id="passwordInput" displayAsPassword="true"/>
 				<s:Button id="submitButton" label="go" click="validateForm(event)"/>
 			</s:VGroup>
 		</s:BorderContainer>
@@ -64,8 +60,6 @@
 		<s:VGroup width="100%">
 			<s:Label text="request"/>
 			<s:TextArea id="requestDisplay" width="100%"/>
-			<!--<s:Label text="response"/>
-			<s:TextArea id="responseDisplay" width="100%"/>-->
 		</s:VGroup>
 	</s:HGroup>
 	

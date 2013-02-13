@@ -10,28 +10,33 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import com.adobe.crypto.MD5;
-			
+
 			import mx.controls.Alert;
 			import mx.validators.Validator;
 			
 			import events.RequestEvent;
 			
-			private function validateForm(event:MouseEvent):void {
-				var validatorErrorArray:Array = Validator.validateAll([nameValidator, emailValidator, pwValidator]);
+			[Bindable] public var token:String;
+			[Bindable] public var groups:Object;
+			
+			private function validateForm(event:MouseEvent):void {			
+				
+				var validatorErrorArray:Array = Validator.validateAll([nameValidator]);
 				var isValidForm:Boolean = validatorErrorArray.length == 0;
 				if (isValidForm) {
 					var re:RequestEvent = new RequestEvent(RequestEvent.TLG_API_REQUEST);
-					//make object
 					var requestObj:Object = new Object();
-					requestObj.operation = 'user.signup';
+					requestObj.operation = 'activity.addActivity';
+					requestObj.token = token;
 					requestObj.name = nameInput.text;
-					requestObj.email = emailInput.text;
-					requestObj.password = MD5.hash(passwordInput.text);
-					//requestObj.password = passwordInput.text;
+					if(dg.selectedIndex > -1){
+						requestObj.group = dg.selectedItem.id;
+					}
 					re.requestJson = JSON.stringify(requestObj);
 					requestDisplay.text = re.requestJson;
 					dispatchEvent(re);
+					
+					
 
 				} else {
 					Alert.show("The form is not valid!", "Somethings up");
@@ -43,20 +48,25 @@
 	
 	<fx:Declarations>
 		<mx:StringValidator id="nameValidator" source="{nameInput}" property="text" required="true"/> <!--TODO: restrict to normal characters so it doesnt stuff up the JSON-->
-		<mx:EmailValidator id="emailValidator" source="{emailInput}" property="text" required="true"/>
-		<mx:StringValidator id="pwValidator" source="{passwordInput}" property="text" required="true"/>
 	</fx:Declarations>
 	
-	<s:Label text="user.signup" styleName="pageTitle"/>
+	<s:Label text="activity.addActivity" styleName="pageTitle"/>
 	<s:HGroup width="100%">
 		<s:BorderContainer backgroundColor="0xeeeeee">
 			<s:VGroup paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
+				<s:Label text="current user token:"/>
+				<s:Label text="{token}"/>
 				<s:Label text="name:"/>
 				<s:TextInput id="nameInput"/>
-				<s:Label text="email:"/>
-				<s:TextInput id="emailInput"/>
-				<s:Label text="password:"/>
-				<s:TextInput id="passwordInput" displayAsPassword="true"/>
+				<s:Label text="select a group to add group activity"/>
+				<s:Button label="deselect group" click="dg.selectedIndex = -1"/>
+				<mx:DataGrid id="dg" width="100%" rowCount="10" dataProvider="{groups}">
+					<mx:columns>
+						<mx:DataGridColumn dataField="name" headerText="Name"/>
+						<mx:DataGridColumn dataField="id" headerText="ID"/>
+					</mx:columns>
+				</mx:DataGrid>
+				
 				<s:Button id="submitButton" label="go" click="validateForm(event)"/>
 			</s:VGroup>
 		</s:BorderContainer>
@@ -64,8 +74,6 @@
 		<s:VGroup width="100%">
 			<s:Label text="request"/>
 			<s:TextArea id="requestDisplay" width="100%"/>
-			<!--<s:Label text="response"/>
-			<s:TextArea id="responseDisplay" width="100%"/>-->
 		</s:VGroup>
 	</s:HGroup>
 	

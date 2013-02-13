@@ -1,16 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" xmlns:user="view.user.*">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 width="100%" 
+		 height="100%" 
+		 xmlns:user="view.user.*" xmlns:token="view.token.*" xmlns:group="view.group.*" xmlns:activity="view.activity.*" xmlns:workout="view.workout.*">
+	
+	
+	<fx:Script>
+		<![CDATA[			
+			import mx.core.INavigatorContent;
+			
+			import events.UIEvent;
+			
+			import view.workout.addWorkout;
+			
+			public function setPage(event:UIEvent):void{
+				var i:INavigatorContent;
+				
+				switch(event.pageName){
+					//TOKEN
+					case 'token.createToken':
+						i = createTokenScreen;
+						break;
+					//USER
+					case 'user.signup':
+						i = signupScreen;
+						break;
+					case 'user.getGroups':
+						i = getGroupsScreen;
+						break;
+					case 'user.getAdminGroups':
+						i = getAdminGroupsScreen;
+						break;
+					case 'user.getActivities':
+						i = getActivitiesScreen;
+						break;
+					//GROUP
+					case 'group.addGroup':
+						i = addGroupScreen;
+						break;
+					case 'group.addInvite':
+						i = addInviteScreen;
+						break;
+					case 'group.addMember':
+						i = addMemberScreen;
+						break;
+					//ACTIVITY
+					case 'activity.addActivity':
+						i = addActivityScreen;
+						break
+					//WORKOUT
+					case 'workout.addWorkout':
+						i = addWorkoutScreen;
+						break
+					
+					default:
+						i = createTokenScreen;
+				}
+				mainViewStack.selectedChild = i;
+			}
+			
+		]]>
+	</fx:Script>
+	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	
-	<mx:ViewStack>
-		<s:NavigatorContent>
+	<mx:ViewStack id="mainViewStack" width="100%" selectedIndex="0">
+		<!--TOKEN-->
+		<s:NavigatorContent width="100%" id="createTokenScreen">
+			<token:createToken/>
+		</s:NavigatorContent>
+		<!--USER-->
+		<s:NavigatorContent width="100%" id="signupScreen">
 			<user:signup/>
 		</s:NavigatorContent>
-		
+		<s:NavigatorContent width="100%" id="getGroupsScreen">
+			<user:getGroups/>
+		</s:NavigatorContent>
+		<s:NavigatorContent width="100%" id="getAdminGroupsScreen">
+			<user:getAdminGroups/>
+		</s:NavigatorContent>
+		<s:NavigatorContent width="100%" id="getActivitiesScreen">
+			<user:getActivities/>
+		</s:NavigatorContent>
+		<!--GROUP-->
+		<s:NavigatorContent width="100%" id="addGroupScreen">
+			<group:addGroup/>
+		</s:NavigatorContent>
+		<s:NavigatorContent width="100%" id="addInviteScreen">
+			<group:addInvite/>
+		</s:NavigatorContent>
+		<s:NavigatorContent width="100%" id="addMemberScreen">
+			<group:addMember/>
+		</s:NavigatorContent>
+		<!--ACTIVITY-->
+		<s:NavigatorContent width="100%" id="addActivityScreen">
+			<activity:addActivity/>
+		</s:NavigatorContent>
+		<!--WORKOUT-->
+		<s:NavigatorContent width="100%" id="addWorkoutScreen">
+			<workout:addWorkout/>
+		</s:NavigatorContent>
 	</mx:ViewStack>
 	
 	

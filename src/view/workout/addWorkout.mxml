@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 
+		 width="100%" 
+		 height="100%"
+		 paddingBottom="10" paddingLeft="10" paddingRight="30" paddingTop="10"
+		 >
+	
+	<fx:Script>
+		<![CDATA[
+
+			import mx.controls.Alert;
+			import mx.validators.Validator;
+			
+			import events.RequestEvent;
+			
+			[Bindable] public var token:String;
+			[Bindable] public var activities:Object;
+			[Bindable] public var groups:Object;
+			
+			[Bindable] public var nowDate:Date = new Date();
+			
+			private function validateForm(event:MouseEvent):void {			
+				
+				var validatorErrorArray:Array = Validator.validateAll([numberValidator]);
+				var isValidForm:Boolean = validatorErrorArray.length == 0;
+				if (isValidForm && dg.selectedIndex > -1) {
+					var re:RequestEvent = new RequestEvent(RequestEvent.TLG_API_REQUEST);
+					var requestObj:Object = new Object();
+					requestObj.operation = 'workout.addWorkout';
+					requestObj.token = token;
+					requestObj.date = workoutDate.selectedDate.getFullYear() + ', ' + (workoutDate.selectedDate.getMonth()+1) + ', ' +workoutDate.selectedDate.getDate();
+					requestObj.duration = durationInput.text;
+					requestObj.activity = dg.selectedItem.key; //TODO: this will be a list of activities - one for user and one per group
+					re.requestJson = JSON.stringify(requestObj);
+					requestDisplay.text = re.requestJson;
+					dispatchEvent(re);
+					
+					
+
+				} else {
+					Alert.show("The form is not valid!", "Somethings up");
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	
+	<fx:Declarations>
+		<s:NumberValidator id="numberValidator" source="{durationInput}" property="text" allowNegative="false" domain="int" required="true"/>
+	</fx:Declarations>
+	
+	<s:Label text="workout.addWorkout" styleName="pageTitle"/>
+	<s:HGroup width="100%">
+		<s:BorderContainer backgroundColor="0xeeeeee">
+			<s:VGroup paddingBottom="10" paddingLeft="10" paddingRight="10" paddingTop="10">
+				<s:Label text="current user token:"/>
+				<s:Label text="{token}"/>
+				<s:Label text="workout date:"/>
+				<mx:DateField id="workoutDate" selectedDate="{nowDate}" formatString="DD/MM/YYYY"/>
+				<s:Label text="duration (mins):"/>
+				<s:TextInput id="durationInput"/>
+				<s:Label text="select an activity"/>
+				<mx:DataGrid id="dg" width="100%" rowCount="10" dataProvider="{activities}">
+					<mx:columns>
+						<mx:DataGridColumn dataField="name" headerText="Name"/>
+						<mx:DataGridColumn dataField="key" headerText="Key"/>
+					</mx:columns>
+				</mx:DataGrid>
+				<s:Button id="submitButton" label="go" click="validateForm(event)"/>
+			</s:VGroup>
+		</s:BorderContainer>
+		
+		<s:VGroup width="100%">
+			<s:Label text="request"/>
+			<s:TextArea id="requestDisplay" width="100%"/>
+		</s:VGroup>
+	</s:HGroup>
+	
+	
+	
+	
+	
+</s:VGroup>
