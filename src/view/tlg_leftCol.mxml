@@ -8,15 +8,25 @@
 	
 	<fx:Script>
 		<![CDATA[
-			
+			import events.RequestEvent;
 			import events.UIEvent;
 			
 			protected function clickHandler(event:MouseEvent):void{
 				var uie:UIEvent = new UIEvent(UIEvent.STACK_SELECT);
 				uie.pageName = event.target.text;
 				dispatchEvent(uie);
-				
-				
+			}
+			
+			
+			
+			
+			protected function gLoginLabel_clickHandler(event:MouseEvent):void
+			{
+				var re:RequestEvent = new RequestEvent(RequestEvent.TLG_API_REQUEST);
+				var requestObj:Object = new Object();
+				requestObj.operation = 'user.getGoogleLoginPage';
+				re.requestJson = JSON.stringify(requestObj);
+				dispatchEvent(re);
 			}
 			
 		]]>
@@ -37,6 +47,7 @@
 		<s:Label text="user.getGroups" styleName="menuMethodName" click="clickHandler(event)"/>
 		<s:Label text="user.getAdminGroups" styleName="menuMethodName" click="clickHandler(event)"/>
 		<s:Label text="user.getActivities" styleName="menuMethodName" click="clickHandler(event)"/>
+		<s:Label id="gLoginLabel" text="user.getGoogleLoginPage" styleName="menuMethodName" click="gLoginLabel_clickHandler(event)"/>
 		
 		<s:Label text="Group" styleName="menuClassTitle"/>
 		<s:Label text="group.addGroup" styleName="menuMethodName" click="clickHandler(event)"/>
@@ -48,6 +59,8 @@
 		
 		<s:Label text="Workout" styleName="menuClassTitle"/>
 		<s:Label text="workout.addWorkout" styleName="menuMethodName" click="clickHandler(event)"/>
+		
+		
 		
 	</s:VGroup>
 	

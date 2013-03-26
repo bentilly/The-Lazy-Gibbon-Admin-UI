@@ -1,4 +1,5 @@
 package business{
+	
 	import mx.controls.Alert;
 	
 	import events.RequestEvent;
@@ -28,6 +29,11 @@ package business{
 				}
 				if(resultJson.activities){
 					activities = resultJson.activities;
+				}
+				if(resultJson.url){
+					/*var request:URLRequest;
+					request = new URLRequest(resultJson.url);
+					navigateToURL(request);*/
 				}
 				
 				Alert.show(String(resultObject), "Response");

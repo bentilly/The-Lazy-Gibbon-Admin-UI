@@ -17,7 +17,7 @@
 			import events.RequestEvent;
 			
 			[Bindable] public var token:String;
-			[Bindable] public var groups:Object;
+			[Bindable] public var adminGroups:Object;
 			
 			private function validateForm(event:MouseEvent):void {			
 				
@@ -29,8 +29,11 @@
 					requestObj.operation = 'activity.addActivity';
 					requestObj.token = token;
 					requestObj.name = nameInput.text;
+					
+					trace("---- "+dg.selectedIndex);
+					
 					if(dg.selectedIndex > -1){
-						requestObj.group = dg.selectedItem.id;
+						requestObj.group = dg.selectedItem.key;
 					}
 					re.requestJson = JSON.stringify(requestObj);
 					requestDisplay.text = re.requestJson;
@@ -60,10 +63,10 @@
 				<s:TextInput id="nameInput"/>
 				<s:Label text="select a group to add group activity"/>
 				<s:Button label="deselect group" click="dg.selectedIndex = -1"/>
-				<mx:DataGrid id="dg" width="100%" rowCount="10" dataProvider="{groups}">
+				<mx:DataGrid id="dg" width="100%" rowCount="10" dataProvider="{adminGroups}">
 					<mx:columns>
 						<mx:DataGridColumn dataField="name" headerText="Name"/>
-						<mx:DataGridColumn dataField="id" headerText="ID"/>
+						<mx:DataGridColumn dataField="key" headerText="KEY"/>
 					</mx:columns>
 				</mx:DataGrid>
 				

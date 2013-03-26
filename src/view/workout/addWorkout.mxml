@@ -31,7 +31,7 @@
 					var requestObj:Object = new Object();
 					requestObj.operation = 'workout.addWorkout';
 					requestObj.token = token;
-					requestObj.date = workoutDate.selectedDate.getFullYear() + ', ' + (workoutDate.selectedDate.getMonth()+1) + ', ' +workoutDate.selectedDate.getDate();
+					requestObj.date = workoutDate.selectedDate.getFullYear() + '-' + (workoutDate.selectedDate.getMonth()+1) + '-' +workoutDate.selectedDate.getDate();
 					requestObj.duration = durationInput.text;
 					requestObj.activity = dg.selectedItem.key; //TODO: this will be a list of activities - one for user and one per group
 					re.requestJson = JSON.stringify(requestObj);
