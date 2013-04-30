@@ -34,6 +34,7 @@
 					requestObj.date = workoutDate.selectedDate.getFullYear() + '-' + (workoutDate.selectedDate.getMonth()+1) + '-' +workoutDate.selectedDate.getDate();
 					requestObj.duration = durationInput.text;
 					requestObj.activity = dg.selectedItem.key; //TODO: this will be a list of activities - one for user and one per group
+					requestObj.comment = '';
 					re.requestJson = JSON.stringify(requestObj);
 					requestDisplay.text = re.requestJson;
 					dispatchEvent(re);
