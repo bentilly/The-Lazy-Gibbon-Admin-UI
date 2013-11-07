@@ -28,7 +28,7 @@
 					var requestObj:Object = new Object();
 					requestObj.operation = 'group.addInvite';
 					requestObj.token = token;
-					requestObj.group = dg.selectedItem.id;
+					requestObj.group = dg.selectedItem.key;
 					requestObj.email = emailInput.text;
 					if(adminInviteCheck.selected){
 						requestObj.admin = "true";
@@ -65,7 +65,7 @@
 				<mx:DataGrid id="dg" width="100%" rowCount="10" dataProvider="{adminGroups}">
 					<mx:columns>
 						<mx:DataGridColumn dataField="name" headerText="Name"/>
-						<mx:DataGridColumn dataField="id" headerText="ID"/>
+						<mx:DataGridColumn dataField="key" headerText="Key"/>
 					</mx:columns>
 				</mx:DataGrid>
 				<s:Button id="submitButton" label="go" click="validateForm(event)"/>

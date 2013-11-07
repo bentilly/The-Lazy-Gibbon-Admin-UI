@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="view.*" xmlns:maps="maps.*">
-	
-	
+			   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:view="view.*" xmlns:maps="maps.*"
+			   
+			   creationComplete="application1_creationCompleteHandler(event)"
+			   
+			   >
 	<!-- CSS ______________________ -->
 	<fx:Style source="/css/tlg_api_admin.css"/>
 	
+		<fx:Script>
+			<![CDATA[
+				import mx.events.FlexEvent;
+				
+				import business.Services;
+				
+				[Bindable] public var services:Services;
+				
+				
+				protected function application1_creationCompleteHandler(event:FlexEvent):void
+				{
+					services = new Services();
+					if(new LocalConnection().domain == "localhost" ){
+						trace('RUNNING LOCALLY');
+						services.URLPrefix = "http://localhost:8091"
+					}else{
+						services.URLPrefix = "";
+					}
+					mainEventMap.services = services;
+				}
+			]]>
+		</fx:Script>
 	
 	<fx:Declarations>
-		<maps:TLGEventMap/>
+		<maps:TLGEventMap id="mainEventMap"/>
 	</fx:Declarations>
 	
 	<view:tlg_home/>

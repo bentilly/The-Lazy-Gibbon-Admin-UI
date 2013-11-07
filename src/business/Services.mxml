@@ -6,7 +6,9 @@
 	<fx:Script>
 		<![CDATA[
 			
-			[Bindable] public var URLPrefix:String = ""; //Always run via browser so login: admin works. This will contact whatever version of the BE is running it
+			//[Bindable] public var URLPrefix:String = ""; //Always run via browser so login: admin works. This will contact whatever version of the BE is running it
+			
+			[Bindable] public var URLPrefix:String;
 			
 		]]>
 	</fx:Script>
